@@ -1,4 +1,14 @@
 # blivechat
+
+## 分支说明
+提供了大尺寸头像获取方式以适配一些特殊CSS样式设计
+默认头像获取尺寸为240px*240px
+可通过命令行启动添加参数asize以调整获取头像尺寸，如
+    ```sh
+    blivechat.exe --asize 512
+    ```
+    
+## 以下为原版介绍
 用于OBS的仿YouTube风格的bilibili直播评论栏
 
 ![OBS截图](./screenshots/obs.png)  

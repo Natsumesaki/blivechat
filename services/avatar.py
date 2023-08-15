@@ -59,6 +59,9 @@ async def get_avatar_url(user_id):
 
 
 async def get_avatar_url_or_none(user_id):
+    if user_id == 0:
+        return None
+     
     avatar_url = get_avatar_url_from_memory(user_id)
     if avatar_url is not None:
         return avatar_url
@@ -166,7 +169,7 @@ async def _do_get_avatar_url_from_web(user_id):
         _wbi_key = await _get_wbi_key()
     try:
         async with utils.request.http_session.get(
-            'https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuMedalAnchorInfo',
+            'https://api.bilibili.com/x/space/wbi/acc/info',
             headers={
                 **utils.request.BILIBILI_COMMON_HEADERS,
                 'Origin': 'https://live.bilibili.com',
@@ -194,11 +197,11 @@ async def _do_get_avatar_url_from_web(user_id):
     if data['code'] != 0:
         # 这里虽然失败但不会被ban一段时间
         logger.info('Failed to fetch avatar: code=%d %s uid=%d', data['code'], data['message'], user_id)
-         if data['code'] == -403:
+        if data['code'] == -403:
             _wbi_key = ''
         return None
 
-    avatar_url = process_avatar_url(data['data']['rface'])
+    avatar_url = process_avatar_url(data['data']['face'])
     update_avatar_cache(user_id, avatar_url)
     return avatar_url
     
